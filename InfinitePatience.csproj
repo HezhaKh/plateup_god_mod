@@ -1,0 +1,82 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <AssemblyName>InfinitePatience</AssemblyName>
+    <RootNamespace>InfinitePatience</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Label="PlateUp paths (override with -p:PlateUpDir=&quot;...&quot; or set %PLATEUP_DIR%)">
+    <PlateUpDir Condition="'$(PlateUpDir)' == '' AND '$(PLATEUP_DIR)' != ''">$(PLATEUP_DIR)</PlateUpDir>
+    <PlateUpDir Condition="'$(PlateUpDir)' == '' AND Exists('C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp')">C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp</PlateUpDir>
+    <PlateUpDir Condition="'$(PlateUpDir)' == '' AND Exists('C:\Program Files\Steam\steamapps\common\PlateUp\PlateUp')">C:\Program Files\Steam\steamapps\common\PlateUp\PlateUp</PlateUpDir>
+    <PlateUpDir Condition="'$(PlateUpDir)' == '' AND Exists('D:\SteamLibrary\steamapps\common\PlateUp\PlateUp')">D:\SteamLibrary\steamapps\common\PlateUp\PlateUp</PlateUpDir>
+    <PlateUpManaged>$(PlateUpDir)\PlateUp_Data\Managed</PlateUpManaged>
+    <ModInstallDir>$(PlateUpDir)\Mods\$(AssemblyName)</ModInstallDir>
+  </PropertyGroup>
+
+  <Target Name="VerifyPlateUpDir" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(PlateUpDir)' == ''"
+           Text="PlateUp install not found. Set PLATEUP_DIR env var or pass -p:PlateUpDir=&quot;path to PlateUp folder&quot; (folder containing PlateUp.exe)." />
+    <Error Condition="'$(PlateUpDir)' != '' AND !Exists('$(PlateUpManaged)')"
+           Text="PlateUpDir is '$(PlateUpDir)' but '$(PlateUpManaged)' does not exist. Point PLATEUP_DIR at the folder containing PlateUp.exe." />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="KitchenMods">
+      <HintPath>$(PlateUpManaged)\KitchenMods.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="KitchenMode">
+      <HintPath>$(PlateUpManaged)\KitchenMode.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Kitchen.Common">
+      <HintPath>$(PlateUpManaged)\Kitchen.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Kitchen.GameData">
+      <HintPath>$(PlateUpManaged)\Kitchen.GameData.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>$(PlateUpManaged)\Unity.Collections.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(PlateUpManaged)\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(PlateUpManaged)\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(PlateUpManaged)\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>$(PlateUpManaged)\Sirenix.Serialization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Unity.Entities">
+      <HintPath>$(PlateUpManaged)\Unity.Entities.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(PlateUpManaged)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="InstallMod" AfterTargets="Build" Condition="Exists('$(PlateUpDir)')">
+    <MakeDir Directories="$(ModInstallDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModInstallDir)" />
+    <Message Importance="high" Text="Installed mod to: $(ModInstallDir)" />
+  </Target>
+
+</Project>
