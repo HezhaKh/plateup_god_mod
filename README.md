@@ -22,15 +22,16 @@ A single-DLL developer / cheat mod for [PlateUp!](https://store.steampowered.com
 
 The menu lets you toggle infinite patience, change game speed, and click a button to spawn any item or appliance by name.
 
-## Install (binary)
+## Install — plug and play
 
-1. Download `InfinitePatience.dll` from [Releases](https://github.com/HezhaKh/plateup_god_mod/releases) (or build from source — see below).
+The repo ships a pre-built copy in [`dist/`](./dist) that mirrors the structure PlateUp expects. Just merge it into the game folder.
+
+1. Clone or download this repo (Code → Download ZIP).
 2. Find your PlateUp install folder — the one containing `PlateUp.exe`. Typical locations:
    - `C:\Program Files (x86)\Steam\steamapps\common\PlateUp\PlateUp\`
    - `D:\SteamLibrary\steamapps\common\PlateUp\PlateUp\`
-3. Create a folder `Mods\InfinitePatience\` inside that install folder.
-4. Drop `InfinitePatience.dll` into `Mods\InfinitePatience\`.
-5. Launch the game. The mod loads automatically.
+3. Copy the **contents** of `dist/` into that folder (so `dist/Mods/` merges with — or creates — the game's `Mods/` directory).
+4. Launch the game. The mod loads automatically.
 
 Final layout:
 
@@ -43,7 +44,11 @@ Final layout:
       InfinitePatience.dll
 ```
 
-To uninstall, delete the `Mods\InfinitePatience\` folder.
+To uninstall, delete `<PlateUp>\Mods\InfinitePatience\`.
+
+### Or just grab the DLL
+
+If you don't want the whole repo, just grab [`dist/Mods/InfinitePatience/InfinitePatience.dll`](./dist/Mods/InfinitePatience/InfinitePatience.dll) and place it at `<PlateUp>\Mods\InfinitePatience\InfinitePatience.dll`.
 
 ## Build from source
 

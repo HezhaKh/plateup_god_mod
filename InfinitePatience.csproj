@@ -79,4 +79,10 @@
     <Message Importance="high" Text="Installed mod to: $(ModInstallDir)" />
   </Target>
 
+  <Target Name="UpdateDist" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <MakeDir Directories="$(MSBuildProjectDirectory)\dist\Mods\$(AssemblyName)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\dist\Mods\$(AssemblyName)" />
+    <Message Importance="high" Text="Updated dist: $(MSBuildProjectDirectory)\dist\Mods\$(AssemblyName)\$(AssemblyName).dll" />
+  </Target>
+
 </Project>
